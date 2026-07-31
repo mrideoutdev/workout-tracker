@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+    <changeSet id="1" author="mrideout">
+        <comment>Workout Table</comment>
+        <createTable tableName="workout">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="workout_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mood" type="smallint"/>
+            <column name="notes" type="varchar(1000)"/>
+        </createTable>
+        
+        <createTable tableName="run">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="workout_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_run_workout"
+                             references="workout(id)"/>
+            </column>
+            <column name="distance" type="numeric">
+                <constraints nullable="false" />
+            </column>
+            <column name="duration_seconds" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="exercise_definition">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="muscle_group" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="strength">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="workout_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_strength_workout"
+                             references="workout(id)"/>
+            </column>
+            <column name="exercise_definition_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_strength_exercise_definition"
+                             references="exercise_definition(id)"/>
+            </column>
+            <column name="sets" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="reps" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="weight" type="numeric"/>
+            <column name="bodyweight" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="mrideout">
+        <sql>
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Bench Press', 'Chest');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Barbell Bent Over Row', 'Back');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Incline Bench Press', 'Chest');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Squat', 'Legs');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Deadlift', 'Back');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Overhead Press', 'Shoulders');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Pull-Up', 'Back');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Chin-Up', 'Back');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Lat Pulldown', 'Back');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Seated Cable Row', 'Back');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Dumbbell Shoulder Press', 'Shoulders');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Lateral Raise', 'Shoulders');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Front Squat', 'Legs');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Leg Press', 'Legs');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Romanian Deadlift', 'Hamstrings');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Leg Curl', 'Hamstrings');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Leg Extension', 'Quads');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Calf Raise', 'Calves');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Bicep Curl', 'Arms');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Hammer Curl', 'Arms');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Tricep Pushdown', 'Arms');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Skull Crusher', 'Arms');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Dip', 'Chest');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Push-Up', 'Chest');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Dumbbell Fly', 'Chest');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Plank', 'Core');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Hanging Leg Raise', 'Core');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Hip Thrust', 'Glutes');
+            INSERT INTO exercise_definition (name, muscle_group) VALUES ('Lunge', 'Legs');
+        </sql>
+    </changeSet>
+</databaseChangeLog>
