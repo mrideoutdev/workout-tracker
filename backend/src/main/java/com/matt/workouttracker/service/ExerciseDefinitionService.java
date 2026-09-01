@@ -5,6 +5,7 @@ import com.matt.workouttracker.repository.ExerciseDefinitionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ExerciseDefinitionService {
@@ -14,7 +15,15 @@ public class ExerciseDefinitionService {
         this.exerciseDefinitionRepository = exerciseDefinitionRepository;
     }
     
-    public List<ExerciseDefinition> getAllExerciseDefinitions(){
-        return exerciseDefinitionRepository.findAll();
+    public List<ExerciseDefinition> getAllExerciseDefinitions(String muscleGroup){
+        if (Objects.isNull(muscleGroup)){
+            return this.exerciseDefinitionRepository.findAll();
+        } else {
+            return this.exerciseDefinitionRepository.findByMuscleGroup(muscleGroup);
+        }
+    }
+
+    public ExerciseDefinition createExerciseDefinition(ExerciseDefinition exerciseDefinition) {
+        return exerciseDefinitionRepository.save(exerciseDefinition);
     }
 }
